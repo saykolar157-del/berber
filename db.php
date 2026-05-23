@@ -1,13 +1,24 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "berber_db";
+$conn = new mysqli(
+$_ENV["MYSQLHOST"],
+$_ENV["MYSQLUSER"],
+$_ENV["MYSQLPASSWORD"],
+$_ENV["MYSQLDATABASE"],
+$_ENV["MYSQLPORT"]
+);
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+if($conn->connect_error){
 
-if (!$conn) {
-    die("DB bağlantı hatası: " . mysqli_connect_error());
+die(
+"DB HATA: ".
+$conn->connect_error
+);
+
 }
+
+$conn->set_charset(
+"utf8mb4"
+);
+
 ?>
