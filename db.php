@@ -1,11 +1,11 @@
 <?php
 
 $conn = new mysqli(
-$_ENV["MYSQLHOST"],
-$_ENV["MYSQLUSER"],
-$_ENV["MYSQLPASSWORD"],
-$_ENV["MYSQLDATABASE"],
-$_ENV["MYSQLPORT"]
+$_ENV["railway"],
+$_ENV["root"],
+$_ENV["RgRNUVdPMMAtvQqwgnqoBYtPcBZWLIDO"],
+$_ENV["railway"],
+$_ENV["3306"]
 );
 
 if($conn->connect_error){
