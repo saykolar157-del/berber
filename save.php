@@ -6,7 +6,7 @@ ini_set('display_errors',1);
 error_reporting(E_ALL);
 
 /* =========================
-   DB BAĞLANTI (RAILWAY)
+   DB BAĞLANTI
    ========================= */
 require "db.php";
 
@@ -54,7 +54,7 @@ exit;
 }
 
 /* =========================
-   ÇAKIŞMA (MYSQL)
+   ÇAKIŞMA
    ========================= */
 $check = $conn->prepare("SELECT id FROM appointments WHERE date=? AND time=?");
 $check->bind_param("ss",$date,$time);
@@ -72,11 +72,11 @@ exit;
 }
 
 /* =========================
-   KAYIT (MYSQL)
+   KAYIT (FIXED)
    ========================= */
 $stmt = $conn->prepare("
-INSERT INTO appointments (name, phone, date, time)
-VALUES (?, ?, ?, ?)
+INSERT INTO appointments (name, phone, date, time, status, price)
+VALUES (?, ?, ?, ?, 'bekliyor', 0)
 ");
 
 $stmt->bind_param("ssss",$name,$phone,$date,$time);
