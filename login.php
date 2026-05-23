@@ -1,17 +1,35 @@
 <?php
 session_start();
-ob_start();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $user = trim($_POST['user'] ?? '');
+    $pass = $_POST['pass'] ?? '';
+
+    $hash = '$2y$10$F029AvGeWADpR..kxUeZWu0GOI5piNek6Vq7fYDnQjsAqkS8HpUeq';
+
+    if ($user === "admin" && password_verify($pass, $hash)) {
+
+        $_SESSION['admin'] = true;
+
+        header("Location: admin.php");
+        exit;
+
+    } else {
+
+        $error = "Hatalı giriş";
+
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-
 <meta charset="UTF-8">
 <title>Admin Giriş</title>
 
 <style>
-
 body{
 margin:0;
 background:#0b0b0b;
@@ -60,7 +78,6 @@ color:red;
 text-align:center;
 margin-top:10px;
 }
-
 </style>
 
 </head>
@@ -80,37 +97,11 @@ margin-top:10px;
 
 </form>
 
-<?php
-
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-
-$user = trim($_POST['user'] ?? '');
-$pass = $_POST['pass'] ?? '';
-
-$hash = '$2y$10$F029AvGeWADpR..kxUeZWu0GOI5piNek6Vq7fYDnQjsAqkS8HpUeq';
-
-if($user === "admin" && password_verify($pass, $hash)){
-
-$_SESSION['admin'] = true;
-
-header("Location: admin.php");
-exit;
-
-}else{
-
-echo '<p class="error">Hatalı giriş</p>';
-
-}
-
-}
-
-?>
+<?php if (!empty($error)) { ?>
+<p class="error"><?php echo $error; ?></p>
+<?php } ?>
 
 </div>
 
 </body>
 </html>
-
-<?php
-ob_end_flush();
-?>
