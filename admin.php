@@ -107,7 +107,6 @@ background:#090909;
 color:white;
 }
 
-/* TOP */
 .top{
 padding:20px;
 background:#121212;
@@ -130,7 +129,6 @@ text-decoration:none;
 color:black;
 }
 
-/* STATS */
 .stats{
 padding:20px;
 display:grid;
@@ -149,13 +147,8 @@ margin-top:10px;
 color:#C8A96B;
 }
 
-/* WRAP */
 .wrap{
 padding:20px;
-}
-
-.day{
-margin-bottom:30px;
 }
 
 .card{
@@ -213,6 +206,29 @@ color:lime;
 font-weight:bold;
 }
 
+/* =========================
+   📅 BUGÜN PANELİ
+   ========================= */
+.todayBox{
+background:#121212;
+margin:20px;
+padding:20px;
+border-radius:20px;
+border:1px solid #2a2a2a;
+}
+
+.todayBox h3{
+color:#C8A96B;
+margin-bottom:10px;
+}
+
+.todayItem{
+background:#1b1b1b;
+padding:10px;
+border-radius:10px;
+margin-top:8px;
+}
+
 @media(max-width:750px){
 .stats{grid-template-columns:1fr;}
 .card{flex-direction:column;}
@@ -250,6 +266,33 @@ Haftalık
 Aylık
 <h2>₺<?= $monthly ?></h2>
 </div>
+
+</div>
+
+<!-- =========================
+     📅 BUGÜN RANDEVULARI
+     ========================= -->
+<div class="todayBox">
+
+<h3>📅 Bugünkü Randevular</h3>
+
+<?php
+$today = date("Y-m-d");
+
+foreach($data as $r):
+
+if($r["date"] != $today) continue;
+?>
+
+<div class="todayItem">
+
+<b><?= htmlspecialchars($r["name"]) ?></b><br>
+📞 <?= $r["phone"] ?><br>
+🕒 <?= $r["time"] ?><br>
+
+</div>
+
+<?php endforeach; ?>
 
 </div>
 
