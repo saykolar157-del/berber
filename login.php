@@ -1,16 +1,14 @@
-<?php session_start(); ?>
+<?php
+session_start();
+ob_start();
+?>
 
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 
 <meta charset="UTF-8">
-
-<title>
-
-Admin Giriş
-
-</title>
+<title>Admin Giriş</title>
 
 <style>
 
@@ -71,84 +69,36 @@ margin-top:10px;
 
 <div class="box">
 
-<h2>
-
-ADMIN GİRİŞ
-
-</h2>
+<h2>ADMIN GİRİŞ</h2>
 
 <form method="POST">
 
-<input
-type="text"
-name="user"
-placeholder="Kullanıcı"
-required>
+<input type="text" name="user" placeholder="Kullanıcı" required>
+<input type="password" name="pass" placeholder="Şifre" required>
 
-<input
-type="password"
-name="pass"
-placeholder="Şifre"
-required>
-
-<button>
-
-GİRİŞ
-
-</button>
+<button>GİRİŞ</button>
 
 </form>
 
 <?php
 
-if($_POST){
+if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-$user=
-trim(
-$_POST['user']
-);
+$user = trim($_POST['user'] ?? '');
+$pass = $_POST['pass'] ?? '';
 
-$pass=
-$_POST['pass'];
+$hash = '$2y$10$F029AvGeWADpR..kxUeZWu0GOI5piNek6Vq7fYDnQjsAqkS8HpUeq';
 
-/* HASH */
+if($user === "admin" && password_verify($pass, $hash)){
 
-$hash=
+$_SESSION['admin'] = true;
 
-'$2y$10$F029AvGeWADpR..kxUeZWu0GOI5piNek6Vq7fYDnQjsAqkS8HpUeq';
-
-if(
-
-$user==="admin"
-
-&&
-
-password_verify(
-$pass,
-$hash
-)
-
-){
-
-$_SESSION['admin']=true;
-
-header(
-"Location: admin.php"
-);
-
+header("Location: admin.php");
 exit;
 
 }else{
 
-echo '
-
-<p class="error">
-
-Hatalı giriş
-
-</p>
-
-';
+echo '<p class="error">Hatalı giriş</p>';
 
 }
 
@@ -160,3 +110,7 @@ Hatalı giriş
 
 </body>
 </html>
+
+<?php
+ob_end_flush();
+?>
